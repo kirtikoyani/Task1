@@ -114,7 +114,7 @@ export default {
                 ...this.Newdata
             };
             // store data in localstorage
-            this.datas.push(Newdata);
+            this.datas.unshift(Newdata);
             localStorage.setItem('datas', JSON.stringify(this.datas));
             this.clearform();
             this.showform = false;
@@ -130,7 +130,7 @@ export default {
         // search functionality
         searchFun() {
             return this.datas.filter((data) =>
-                data.name.toLowerCase().includes(this.input.toLowerCase()) || data.email.toLowerCase().includes(this.input.toLowerCase()));
+                data.name.toLowerCase().includes(this.input.toLowerCase()) || data.email.toLowerCase().includes(this.input.toLowerCase()) || data.number.toString().trim().includes(this.input?.toLowerCase()?.trim()));
         },
         // delete data from array
         deletedata(data) {
@@ -152,14 +152,7 @@ export default {
         // update data
         updatedata() {
             const index = this.datas.findIndex(i => i.id === this.Newdata.id);
-            if (this.checkEmailExists(this.Newdata.email)) {
-                alert('Email address already taken');
-                return;
-            }
-            this.datas[index].name = this.Newdata.name;
-            this.datas[index].email = this.Newdata.email;
-            this.datas[index].number = this.Newdata.number;
-            this.datas[index].date = this.Newdata.date;
+            this.datas[index]={...this.Newdata}
             localStorage.setItem('datas', JSON.stringify(this.datas));
             this.clearform();
             this.showform = false;
