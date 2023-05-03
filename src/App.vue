@@ -1,15 +1,15 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-  <HelloWorld/>
+  <CrudOperation/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CrudOperation from './components/CrudOperation.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    CrudOperation
   }
 }
 </script>
