@@ -1,40 +1,9 @@
 <template>
-<div class="container" v-if="showform">
-    <form class="form">
-        <h1>Add and edit</h1>
-        <div class="form-field">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" v-model="Newdata.name" required>
-            <small></small>
-        </div>
-
-        <div class="form-field">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" v-model="Newdata.email" required>
-            <small></small>
-        </div>
-
-        <div class="form-field">
-            <label for="number">Mobile</label>
-            <input type="number" name="number" id="number" v-model="Newdata.number" required>
-            <small></small>
-        </div>
-
-        <div class="form-field">
-            <label for="date">Date of Birth</label>
-            <input type="date" name="date" id="date" v-model="Newdata.date" required>
-            <small></small>
-        </div>
-
-        <div class="form-field-btn">
-            <button class="btn" v-if="savebtn" @click.prevent="adddata">save</button>
-            <button class="btn" v-if="updatebtn" @click.prevent="updatedata">Update</button>
-        </div>
-    </form>
-</div>
 <div class="search-btn">
     <input type="text" v-if="showbtn" placeholder="search" class="input" v-model="input" aria-label="Search" id="searchtextbox">
-    <button class="btn-adduser" v-if="showbtn" @click="showform=!showform,showbtn=!showbtn">Add New User</button>
+    <button class="btn-adduser" v-if="showbtn" @click="showform=!showform,showbtn=!showbtn">
+        <router-link to="/create">Add New User</router-link>
+    </button>
 </div>
 
 <table class="table" v-if="showbtn">
@@ -51,7 +20,9 @@
         <td>{{ data.email }}</td>
         <td>{{ data.number }}</td>
         <td>{{ data.date }}</td>
-        <td><button class="btn-edit" @click="editdata(data,index)">Edit</button> <button class="btn-delete" @click="deletedata(data)">Delete</button></td>
+        <td><button class="btn-edit" @click="editdata(data,index)">
+                <router-link :to="`/edit/${data.id}`">Edit</router-link>
+            </button> <button class="btn-delete" @click="deletedata(data)">Delete</button></td>
     </tr>
 </table>
 
@@ -59,6 +30,7 @@
     <p>No results found!</p>
 </div>
 </template>
+
 
 <script>
 export default {
@@ -84,6 +56,7 @@ export default {
     },
     methods: {
         // getting data from localstorage
+
         getdatasFromStorage() {
             const datas = JSON.parse(localStorage.getItem('datas') || '[]');
             this.datas = datas;
@@ -108,6 +81,7 @@ export default {
                 alert("Enter valid number");
                 return;
             }
+
             // add new data to array
             const Newdata = {
                 id: Date.now(),
@@ -130,7 +104,7 @@ export default {
         // search functionality
         searchFun() {
             return this.datas.filter((data) =>
-                data.name.toLowerCase().includes(this.input.toLowerCase()) || data.email.toLowerCase().includes(this.input.toLowerCase()) || data.number.toString().trim().includes(this.input?.toLowerCase()?.trim()));
+                data.name.toLowerCase().includes(this.input.toLowerCase()) || data.email.toLowerCase().includes(this.input.toLowerCase()) || data.number.toString().trim().includes(this.input.trim()));
         },
         // delete data from array
         deletedata(data) {
@@ -143,7 +117,9 @@ export default {
         // edit data
         editdata(data) {
 
-            this.Newdata = { ...data };
+            this.Newdata = {
+                ...data
+            };
             this.showform = true;
             this.updatebtn = true;
             this.savebtn = false;
@@ -152,12 +128,15 @@ export default {
         // update data
         updatedata() {
             const index = this.datas.findIndex(i => i.id === this.Newdata.id);
-            this.datas[index]={...this.Newdata}
+            this.datas[index] = {
+                ...this.Newdata
+            }
             localStorage.setItem('datas', JSON.stringify(this.datas));
             this.clearform();
             this.showform = false;
             this.showbtn = true;
         }
+
     }
 }
 </script>

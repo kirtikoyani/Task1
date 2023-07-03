@@ -1,15 +1,19 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-  <CrudOperation/>
+  <navbar />
+<!-- <hii/> -->
+  <router-view />
 </template>
 
 <script>
-import CrudOperation from './components/CrudOperation.vue'
+// import Hii from './components/hii.vue'
+// import CrudOperation from './components/createUser.vue'
+import navbar from './components/navBar.vue'
 
 export default {
   name: 'App',
   components: {
-    CrudOperation
+    navbar,
+    // Hii
   }
 }
 </script>
